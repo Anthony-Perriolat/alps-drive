@@ -1,0 +1,24 @@
+{
+  "name": "alps",
+  "version": "1.0.0",
+  "description": "Projet de création d'un drive",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node main.js",
+    "auto-dev": "nodemon ./server.js localhost 3000", 
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anthony-Perriolat/alps-drive.git"
+  },
+  "author": "Anthony Perriolat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Anthony-Perriolat/alps-drive/issues"
+  },
+  "homepage": "https://github.com/Anthony-Perriolat/alps-drive#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
