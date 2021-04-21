@@ -52,10 +52,15 @@ function addFolder(name='') {
     return add
 
 }
+function deleteElement(name) {
+    const del = fs.promises.rm(pathDrive+'drive'+path.sep+name ,{recursive: true, force: true})
+    return del
+}
 
 module.exports = {listDrive:listDrive,
     isFolder:isFolder,
     readFile:readFile,
-    addFolder:addFolder
+    addFolder:addFolder,
+    deleteElement:deleteElement
 }
 

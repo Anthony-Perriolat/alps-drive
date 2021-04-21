@@ -34,11 +34,28 @@ app.post('/api/drive', (req, res) => {
     res.status(201).send()
   }).catch(() => res.status(400).end())
 })
+// ajout dossier dans un dossier
 app.post('/api/drive/:folder', (req, res) => {
   drive.addFolder(req.params.folder+'/'+req.query.name).then(() => {
     res.status(201).end()
   }).catch(() => {
     if (!req.params.folder)
     res.status(404).end()
+  })
+})
+// Suppression d'un dossier
+app.delete('/api/drive/:name',(req, res) => {
+  drive.deleteElement(req.params.name).then(() => {
+    res.status(201).end()
+  }).catch(() => {
+    res.status(400).end()
+  })
+})
+// Suppression d'un dossier dans un dossier
+app.delete('/api/drive/:folder/:name',(req, res) => {
+  drive.deleteElement(req.params.folder+'/'+req.params.name).then(() => {
+    res.status(201).end()
+  }).catch(() => {
+    res.status(400).end()
   })
 })
