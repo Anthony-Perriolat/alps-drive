@@ -1,4 +1,5 @@
 const express = require('express')
+const { openFolder } = require('./drive')
 const drive = require('./drive')
 const app = express()
 const port = 3000
@@ -9,6 +10,32 @@ app.use(express.static('frontend'))
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
+
+// indexation drive 
 app.get('/api/drive', (req, res) => {
-  drive.listDrive().then((content) => {res.send({content})})
+  drive.listDrive('drive').then((content) => res.json(content))
+})
+// Selection dossier ou lecture 
+app.get('/api/drive/:name', (req, res) => {
+  drive.isFolder('drive/'+req.params.name).then((content) => {
+    if (content) {
+      drive.listDrive('drive/'+req.params.name).then((content) => res.json(content))
+    }
+    else
+    {
+      drive.readFile('drive/'+req.params.name).then((content) => res.send(content))
+    }
+  })
+  .catch( () => res.status(404).send('erreur : 404'))
+})
+// ajout dossier
+app.post('/api/drive', (req, res) => {
+  drive.addFolder(req.query.name).then(() => {
+    res.status(201).end()
+  }).catch(() => res.status(400).end())
+})
+app.post('/api/drive/:folder', (req, res) => {
+  drive.addFolder(req.query.name).then(() => {
+    res.status(201).end()
+  }).catch(() => res.status(400).end())
 })
