@@ -31,11 +31,14 @@ app.get('/api/drive/:name', (req, res) => {
 // ajout dossier
 app.post('/api/drive', (req, res) => {
   drive.addFolder(req.query.name).then(() => {
-    res.status(201).end()
+    res.status(201).send()
   }).catch(() => res.status(400).end())
 })
 app.post('/api/drive/:folder', (req, res) => {
-  drive.addFolder(req.query.name).then(() => {
+  drive.addFolder(req.params.folder+'/'+req.query.name).then(() => {
     res.status(201).end()
-  }).catch(() => res.status(400).end())
+  }).catch(() => {
+    if (!req.params.folder)
+    res.status(404).end()
+  })
 })

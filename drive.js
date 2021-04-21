@@ -45,7 +45,7 @@ function readFile(target) {
     const readingTarget = fs.promises.readFile(pathDrive+target, {encoding : 'UTF-8'})
     return readingTarget
 }
-function addFolder(name) {
+function addFolder(name='') {
     const add = fs.promises.mkdir(pathDrive+'drive'+path.sep+name)
     .then(() => console.log('le dossier '+ name +' à été crée'))
     .catch((err => console.log(err)))
