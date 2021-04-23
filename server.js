@@ -2,7 +2,6 @@ const bb = require('express-busboy');
 const express = require('express')
 const drive = require('./drive')
 const path = require('path');
-const { addFolder } = require('./drive');
 const app = express()
 const port = 3000
 const options = {
@@ -23,7 +22,7 @@ app.listen(port, () => {
 
 // indexation drive 
 app.get('/api/drive', (req, res) => {
-  drive.listDrive('drive').then((content) => res.json(content))
+  drive.listDrive('drive').then((content) => res.json(content)).catch((err) => console.error(err))
 })
 // Selection dossier ou lecture 
 app.get('/api/drive/:name', (req, res) => {

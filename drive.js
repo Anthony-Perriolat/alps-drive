@@ -18,20 +18,39 @@ else {
     console.log('Le dossier à déjà était crée')
 }
 
+// obtenir la taille d'un fichier en bit 
+
+function getSize(target) {
+    return fs.promises.stat(pathDrive + 'Drive/' + target)
+
+}
+
 // Retourne une liste contenant les dossiers et fichiers à la racine du “drive” sous forme de array
 
 function listDrive(target) {
     let arrayDrive = fs.promises.readdir(pathDrive + target, { withFileTypes: true })
-    const transformPromise = arrayDrive.then((result) => {
-        const tab = [];
-        result.forEach(function (element) {
-            tab.push({
-                name: element.name,
-                isFolder: element.isDirectory()
+    const transformPromise = arrayDrive
+        .then((result) => {
+            const tab = [];
+            result.forEach(function (element) {
+                if (element.isDirectory()) {
+                    tab.push({
+                        name: element.name,
+                        isFolder: element.isDirectory()
+                    })
+                }
+                else {
+                    getSize(element.name).then((obj) => {
+                        tab.push({
+                            name: element.name,
+                            size: getSize(element.name),
+                            isFolder: element.isDirectory()
+                        })
+                    })    
+                }
             })
+            return tab;
         })
-        return tab;
-    })
 
     return transformPromise;
 }
@@ -55,13 +74,13 @@ function deleteElement(name) {
     return del
 }
 /* function isValid(name) {
-    return /^[a-zA-Z0-9_()\. ]*$test(name)
+    return /^[a-zA-Z0-9_()\. ]*test(name)
 }
  */
 // Upload 
-function upload(tmp, name, uuid, folder='') {
+function upload(tmp, name, uuid, folder = '') {
     const up = fs.promises.copyFile(tmp, pathDrive + 'drive' + path.sep + folder + name)
-    .then(fs.promises.rm(os.tmpdir()+path.sep+'express-busboy/'+uuid, { recursive: true, force: true }))
+        .then(fs.promises.rm(os.tmpdir() + path.sep + 'express-busboy/' + uuid, { recursive: true, force: true }))
     return up
 }
 
